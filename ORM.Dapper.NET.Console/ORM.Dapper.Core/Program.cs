@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ORM.Dapper.Service;
+using ORM.Dapper.Service.Factory;
 
 namespace ORM.Dapper.Core
 {
@@ -23,6 +25,7 @@ namespace ORM.Dapper.Core
             services.AddSingleton(typeof(IConfiguration), new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build());
             services.AddSingleton<Helper>();
             services.AddTransient<App>();
+            services.AddScoped<IDapperDbConnectionFactory, DapperDbConnectionFactory>();
             return services.BuildServiceProvider(true);
         }
 

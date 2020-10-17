@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace ORM.Dapper.Core
+namespace ORM.Dapper.Service
 {
     public class Helper
     {
