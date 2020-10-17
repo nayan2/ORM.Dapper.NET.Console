@@ -26,6 +26,7 @@ namespace ORM.Dapper.Core
             services.AddSingleton<Helper>();
             services.AddTransient<App>();
             services.AddScoped<IDapperDbConnectionFactory, DapperDbConnectionFactory>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             return services.BuildServiceProvider(true);
         }
 

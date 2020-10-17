@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using ORM.Dapper.Service.Factory;
 
@@ -9,39 +10,36 @@ namespace ORM.Dapper.Service
 {
     public class GenericRepository<T> : IGenericRepository<T> where T: class
     {
-        private readonly IDapperDbConnectionFactory _dbConnectionFactory;
+        protected readonly IDapperDbConnectionFactory DbConnectionFactory;
         
         public GenericRepository(IDapperDbConnectionFactory dbConnectionFactory)
         {
-            this._dbConnectionFactory = dbConnectionFactory;
+            this.DbConnectionFactory = dbConnectionFactory;
         }
-        
-        public DbConnection GetDbconnection()
+
+        public async Task<T> Get(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
+        {
+            var result = await this.DbConnectionFactory.Connection.QueryAsync<T>(sp, param, commandType: commandType);
+            return result.FirstOrDefault();
+        }
+
+        public async Task<List<T>> GetAll(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
+        {
+            var result = await this.DbConnectionFactory.Connection.QueryAsync<T>(sp, param, commandType: commandType);
+            return result.ToList();
+        }
+
+        public Task<int> Execute(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
         {
             throw new System.NotImplementedException();
         }
 
-        public T Get(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
-        {
-            return this._dbConnectionFactory.Connection.Query<T>(sp, param, commandType: commandType).FirstOrDefault();
-        }
-
-        public List<T> GetAll(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
+        public Task<T> Insert(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
         {
             throw new System.NotImplementedException();
         }
 
-        public int Execute(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public T Insert(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public T Update(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
+        public Task<T> Update(string sp, DynamicParameters param, CommandType commandType = CommandType.StoredProcedure)
         {
             throw new System.NotImplementedException();
         }
