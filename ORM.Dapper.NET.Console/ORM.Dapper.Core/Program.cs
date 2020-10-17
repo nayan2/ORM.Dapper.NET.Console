@@ -7,6 +7,8 @@ using ORM.Dapper.Service.Factory;
 
 namespace ORM.Dapper.Core
 {
+    //Thanks to https://www.c-sharpcorner.com/article/using-dapper-in-asp-net-core-web-api/
+    // And https://dapper-tutorial.net/
     public static class Program
     {
         private static IServiceProvider _serviceProvider;
